@@ -1,0 +1,25 @@
+
+development:
+  cloud_name: jokuriodev
+  api_key: '879438297339224'
+  api_secret: BoqqFrpwCoWGe5xrnt-cqm9Y2gM
+  enhance_image_tag: true
+  static_file_support: false
+  secure: true
+  cdn_subdomain: true
+production:
+  cloud_name: jokuriodev
+  api_key: '879438297339224'
+  api_secret: BoqqFrpwCoWGe5xrnt-cqm9Y2gM
+  enhance_image_tag: true
+  static_file_support: true
+  secure: true
+  cdn_subdomain: true
+test:
+  cloud_name: jokuriodev
+  api_key: '879438297339224'
+  api_secret: BoqqFrpwCoWGe5xrnt-cqm9Y2gM
+  enhance_image_tag: true
+  static_file_support: false
+  secure: true
+  cdn_subdomain: true
