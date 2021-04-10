@@ -1,8 +1,7 @@
 class RequestsController < ApplicationController
     before_action :authorize_request, except: [:request_counter]
 
-    # Get all the request [Any request with status of 1 (fulfilled) should not be displayed]
-    # GET: /api/v1/requests
+
     def index
         requests = Request.where(status: 0)
         if requests
@@ -17,8 +16,7 @@ class RequestsController < ApplicationController
         end
     end
  
-    # Make a new the request 
-    # POST: /api/v1/requests
+    
     def create
         request = Request.new({title: params[:title], reqtype: params[:reqtype], description: params[:description],
             lat: params[:lat], lng: params[:lng], address: params[:address], status: params[:status], user_id: @current_user.id})
@@ -39,8 +37,6 @@ class RequestsController < ApplicationController
         end
     end
 
-    # Get a single request with the user that made the request [including the volunteers]
-    # GET: /api/v1/requests/:id
     def show
         request = Request.includes(:user).find_by_id(params[:id])
         if request
@@ -68,8 +64,6 @@ class RequestsController < ApplicationController
     end
 
 
-    # Get request of a particular  user
-    # GET: /api/v1/my-requests
     def my_request
         request = Request.where(user_id: @current_user.id)
         if request
@@ -88,8 +82,7 @@ class RequestsController < ApplicationController
         end
     end
 
-    # Mark request as fulfilled
-    # PATCH: /api/v1/requests/:id
+
     def update
         request = Request.find_by_id(params[:id])
         if request
@@ -113,12 +106,11 @@ class RequestsController < ApplicationController
         end
     end
 
-    # Delete a request
-    # DELETE: /api/v1/requests/:id
+    
     def destroy
         request = Request.find_by_id(params[:id])
         if request
-            # delete the request and all associated messages and volunteering
+            
             request.destroy
             render json: {
                 status: 'success',
@@ -131,8 +123,7 @@ class RequestsController < ApplicationController
     end
     
     
-    # Republish a request => find the request destroy all the volunteers and change status to 0
-    # PATCH: /api/v1/republish/:request_id
+    
     def republish
         request = Request.find_by_id(params[:request_id])
         if request
@@ -140,7 +131,7 @@ class RequestsController < ApplicationController
             if request.save
                 volunteers = Volunteer.where(request_id: params[:request_id])
                 if volunteers
-                    # delete all volunteers
+                    
                     volunteers.destroy_all
                     render json: {
                         status: 'success',
@@ -161,7 +152,7 @@ class RequestsController < ApplicationController
         end
     end
 
-    # count fulfilled and unfulfilled requests
+    
     def request_counter
         unfulfilled = Request.where(status: 0)
         fulfilled = Request.where(status: 1)

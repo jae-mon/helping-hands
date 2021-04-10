@@ -22,10 +22,10 @@ class ApplicationController < ActionController::API
     end
 
     private
-    # token decode secret
+    
     SECRET_KEY = Rails.application.secrets.secret_key_base. to_s
 
-    # token decoder method
+    
     def decode_token(token)
         decoded = JWT.decode(token, SECRET_KEY)[0]
         HashWithIndifferentAccess.new decoded

@@ -1,8 +1,7 @@
 class MessagesController < ApplicationController
     before_action :authorize_request
 
-            # Send your first message to the requester that you can help them
-            # POST: messages
+            
             def create
                 mesg = Message.new({user_id: @current_user.id, receiver_id: params[:receiver_id], content: params[:content], request_id: params[:request_id]})
                 if mesg.save
@@ -22,8 +21,7 @@ class MessagesController < ApplicationController
                 end
             end
 
-            # Get all requester messages from their volunteers
-            # GET: /api/v1/my-messages
+            
             def my_messages
                 my_mesgs = Message.includes(:user).where(receiver_id: @current_user.id).order(created_at: :desc)
                 if my_mesgs.any?
@@ -43,10 +41,10 @@ class MessagesController < ApplicationController
                 end
             end
 
-            # Update the chat read status
-            # PATCH: /api/v1/read-status/:request_id/:user_id(sender_id)
+            
+            
             def update_read_status
-                # update read status for the message
+                
                 the_mesg = Message.find_by(receiver_id: @current_user.id, user_id: params[:user_id], request_id: params[:request_id], read_status: 0)
                 if the_mesg
                     the_mesg.read_status = 1
@@ -66,10 +64,9 @@ class MessagesController < ApplicationController
                 end
             end
 
-            # Get a chat messages between the requester and volunteer including the request
-            # GET: /api/v1/chat/:request_id/:user_id(sender_id)
+            
             def get_chat_messages
-                # get chat messages
+        
                 chats = Message.includes(:user).where(receiver_id: @current_user.id, user_id: params[:user_id], request_id: params[:request_id]).or(Message.includes(:user).where(user_id: @current_user.id, receiver_id: params[:user_id], request_id: params[:request_id])).order(created_at: :asc)
                 if chats.any?
                     render json: chats, :include => {
@@ -88,8 +85,7 @@ class MessagesController < ApplicationController
             end
 
 
-            # Get message notification
-            # GET: /api/v1/notifications
+            
             def message_notifications
                 notifications = Message.where(receiver_id: @current_user.id, read_status: 0)
                if notifications

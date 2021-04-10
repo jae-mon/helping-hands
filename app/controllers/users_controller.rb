@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
     before_action :authorize_request, except: [:create, :login, :index]
 
-    # get all users / counter for homepage
+    
     def index
         user = User.order('id DESC')
         render json: {
@@ -14,7 +14,6 @@ class UsersController < ApplicationController
 
     
     def create
-        # check if the user already exists
         if User.exists?(email: params[:email])
             render json: {
                 status: 'warning',
@@ -47,11 +46,9 @@ class UsersController < ApplicationController
         end
     end
 
-    # login a user
+    
     def login
-        # find the user in the DB using their email
         user = User.find_by_email(params[:email])
-        # when the user exists and password is authenticate
         if user&.authenticate(params[:password])
             # generate user token
             token = encode_token({user_id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email})
@@ -75,10 +72,8 @@ class UsersController < ApplicationController
         params.permit(:firstname, :lastname, :email, :password, :image)
     end
     
-    # token hash secret
     SECRET_KEY = Rails.application.secrets.secret_key_base. to_s
     
-    # token generator method using the secret
     def encode_token(payload, exp = 24.hours.from_now)
     payload[:exp] = exp.to_i
     JWT.encode(payload, SECRET_KEY) 
