@@ -22,7 +22,7 @@ class UsersController < ApplicationController
             status: :unprocessable_entity
         else
             # upload user image to cloudinary
-            value = Cloudinary::Uploader.upload(params[:image], :folder => 'neighborhoodAid')
+            value = Cloudinary::Uploader.upload(params[:image], :folder => 'HelpingHands')
             # create a new user object and save it to the database
             user = User.new({firstname: params[:firstname], lastname: params[:lastname], email: params[:email], password: params[:password], image: value['secure_url']})
             if user.save
