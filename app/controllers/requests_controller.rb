@@ -18,7 +18,7 @@ class RequestsController < ApplicationController
  
     
     def create
-        request = Request.new({title: params[:title], reqtype: params[:reqtype], description: params[:description],
+        request = Request.new({title: params[:title], need: params[:need], description: params[:description],
             lat: params[:lat], lng: params[:lng], address: params[:address], status: params[:status], user_id: @current_user.id})
         if request.save
             render json: {
@@ -173,7 +173,7 @@ class RequestsController < ApplicationController
 
     private
     def request_params
-        params.permit(:title, :reqtype, :description, :lat, :lng, :address, :status)
+        params.permit(:title, :need, :description, :lat, :lng, :address, :status)
     end
 
 end
