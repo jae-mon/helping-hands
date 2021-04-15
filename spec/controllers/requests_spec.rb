@@ -14,7 +14,7 @@ describe 'Requests Controller', type: :request do
         expect {
             post '/requests', params: {
                 title: 'I need your help',
-                reqtype: 'material',
+                need: 'material',
                 description: Faker::Lorem.sentence(word_count: 300),
                 lat: Faker::Address.latitude,
                 lng: Faker::Address.longitude,
